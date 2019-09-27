@@ -1,0 +1,5 @@
+rootProject.name = 'plugin_demo_3'
+include 'plugin'
+include 'lib_1'
+include 'lib_2'
+

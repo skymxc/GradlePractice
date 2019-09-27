@@ -1,0 +1,21 @@
+import com.skymxc.plugin.JarLog
+
+plugins {
+    id 'java'
+}
+
+apply plugin: JarLog
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+logConfigure {
+    outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
+}

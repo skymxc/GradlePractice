@@ -1,0 +1,88 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java'
+}
+
+group 'com.skymxc'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// 定义一个插件
+class WithLog implements Plugin<Project>{
+
+    @Override
+    void apply(Project target) {
+        //增加一个扩展配置用来接收参数
+        target.extensions.create("logConfigure", LogConfigure)
+        //添加一个任务
+        target.task('hello', group: 'util') {
+            doLast {
+                logger.quiet("Hello Plugin.")
+            }
+        }
+
+        //添加一个任务
+        target.task(type: Jar, group: 'util', 'jarWithLog', {
+            doLast {
+                //使用配置
+                def file = target.logConfigure.outputPath;
+                if (file == null) {
+                    file = new File(target.projectDir, "/log/jarlog.txt").getPath()
+                }
+                println "存储目录是 ${file}"
+                def content = "${getArchiveFileName().get()}---${getNow()}\n"
+                writeFile(file, content)
+            }
+        })
+
+        //为 jar 任务添加一个 操作，
+        target.tasks.jar.doLast {
+            println "当前时间是 ${getNow()},打了一个 jar-> ${version}"
+            //存到指定文件记录
+            def file = new File(target.projectDir, "/log/jarlog.txt");
+            def content = "${version}---${getNow()}\n"
+            writeFile(file.getAbsolutePath(), content)
+        }
+
+    }
+
+    def String getNow() {
+        def dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss.SSS");
+        return dateFormat.format(Calendar.getInstance().getTime());
+    }
+
+    def void writeFile(String path, String content) {
+        def file = new File(path);
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(file.getAbsolutePath(), true);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        bufferedWriter.write(content);
+        bufferedWriter.close();
+    }
+}
+
+class LogConfigure {
+    String outputPath;
+}
+
+//应用插件
+apply plugin:WithLog
+
+logConfigure {
+    outputPath "${projectDir.getPath()}\\record.txt"
+}

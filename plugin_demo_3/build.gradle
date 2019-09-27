@@ -1,0 +1,10 @@
+buildscript {
+    repositories {
+        maven {
+            url 'file://E:/libs/localMaven'
+        }
+    }
+    dependencies {
+        classpath 'com.skymxc:plugin:1.0.0'
+    }
+}
