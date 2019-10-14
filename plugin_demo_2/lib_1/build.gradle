@@ -1,7 +1,10 @@
 plugins {
     id 'java'
-    id 'JarLog'
+
+    //使用 id
+    id 'com.github.skymxc.sample'
 }
+
 
 version '1.0.0'
 
@@ -17,4 +20,9 @@ dependencies {
 
 logConfigure {
     outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
+}
+
+
+hello {
+    message "我就是那个配置的消息"
 }

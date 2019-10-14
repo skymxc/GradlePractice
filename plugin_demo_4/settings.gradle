@@ -1,14 +1,2 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven {
-            url 'file://E:/libs/localMaven'
-        }
-    }
-    plugins {
-        id "com.skymxc.jarlog" version "1.0.0"
-        id "com.skymxc.greet" version "1.0.0"
-    }
-}
 include 'lib_1'
 

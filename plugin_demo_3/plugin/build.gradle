@@ -3,7 +3,7 @@ plugins {
     id 'maven'
 }
 
-group 'com.skymxc'
+group 'com.github.skymxc'
 version '1.0.0'
 
 sourceCompatibility = 1.8
@@ -21,7 +21,7 @@ uploadArchives {
 
     repositories {
         mavenDeployer {
-            pom.groupId = 'com.skymxc'//你的包名
+            pom.groupId = 'com.github.skymxc'//你的包名
             pom.artifactId = 'plugin' //构件名
             pom.version = project.version//版本号
             //文件发布到指定仓库

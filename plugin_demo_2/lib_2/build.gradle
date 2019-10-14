@@ -1,10 +1,12 @@
-import com.skymxc.plugin.JarLog
+
 
 plugins {
     id 'java'
 }
 
-apply plugin: JarLog
+//使用类名
+apply plugin: com.github.skymxc.JarLog
+
 version '1.0.0'
 
 sourceCompatibility = 1.8
@@ -18,4 +20,9 @@ dependencies {
 }
 logConfigure {
     outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
+}
+
+hello {
+    group 'custom'
+    message '我就是那个配置的消息'
 }
