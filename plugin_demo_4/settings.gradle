@@ -1,2 +1,11 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'file://E:/libs/localMaven'
+        }
+    }
+}
 include 'lib_1'
+include 'plugin'
+findProject(':plugin')?.name = 'gradle'
 

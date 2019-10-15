@@ -1,0 +1,46 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group 'com.github.skymxc'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+gradlePlugin {
+    plugins {
+        greetPlugin {
+            id = 'com.github.skymxc.greet'
+            implementationClass = 'com.github.skymxc.GreetPlugin'
+            version = '1.0.0'
+        }
+
+        jarWithLogPlugin {
+            id = 'com.github.skymxc.jar-log'
+            implementationClass = 'com.github.skymxc.JarWithLogPlugin'
+            version = '1.0.0'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+}
+
+publishing {
+    repositories {
+        maven {
+            name 'local'
+            url 'file://E:/libs/localMaven'
+        }
+    }
+}
+
+
