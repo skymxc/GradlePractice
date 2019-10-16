@@ -1,6 +1,6 @@
 plugins {
     id 'groovy'
-    id 'maven'
+    id 'maven-publish'
 }
 
 group 'com.github.skymxc'
@@ -17,15 +17,20 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
 }
-uploadArchives {
-
+publishing {
     repositories {
-        mavenDeployer {
-            pom.groupId = 'com.github.skymxc'//你的包名
-            pom.artifactId = 'plugin' //构件名
-            pom.version = project.version//版本号
-            //文件发布到指定仓库
-            repository(url: 'file://E:/libs/localMaven')
+        maven {
+            name 'local'
+            url 'file://E:/libs/localMaven'
         }
     }
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.skymxc'
+            artifactId = 'plugin'
+            version = '1.0.1'
+            from components.java
+        }
+    }
+
 }
