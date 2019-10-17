@@ -1,6 +1,6 @@
 package com.github.skymxc
 
-
+import com.github.skymxc.extension.LogExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.bundling.Jar
@@ -10,17 +10,17 @@ import java.text.SimpleDateFormat
 /**
  * 输出 生成记录到指定文件
  */
-class JarLog implements Plugin<Project> {
+class JarLogPlugin implements Plugin<Project> {
     @Override
     void apply(Project target) {
         //增加一个扩展配置用来接收参数
-        target.extensions.create("logConfigure", com.github.skymxc.configure.LogConfigure)
+        target.extensions.create("log", LogExtension)
 
         //添加一个任务
         target.task(type: Jar,group:'util','jarWithLog',{
             doLast {
                 //使用配置
-                def file = target.logConfigure.outputPath;
+                def file = target.log.outputPath;
                 if (file==null){
                     file = new File(target.projectDir,"/log/jarlog.txt").getPath()
                 }
@@ -40,7 +40,7 @@ class JarLog implements Plugin<Project> {
         }
 
         //添加一个任务
-        target.getTasks().create("hello",Greet.class)
+        target.getTasks().create("hello",GreetTask.class)
     }
 
     def String getNow(){

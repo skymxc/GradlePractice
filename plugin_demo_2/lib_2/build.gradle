@@ -1,11 +1,11 @@
-
+import com.github.skymxc.JarLogPlugin
 
 plugins {
     id 'java'
 }
 
 //使用类名
-apply plugin: com.github.skymxc.JarLog
+apply plugin: JarLogPlugin
 
 version '1.0.0'
 
@@ -18,7 +18,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-logConfigure {
+log {
     outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
 }
 
