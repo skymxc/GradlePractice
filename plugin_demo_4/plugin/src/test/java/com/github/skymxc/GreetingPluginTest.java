@@ -17,11 +17,8 @@ public class GreetingPluginTest {
         project.getPluginManager().apply("com.github.skymxc.greet");
         HelloTask task = (HelloTask) project.getTasks().getByName("hello");
         assert task != null;
-        try {
             task.greet();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         System.out.println("应用插件成功了，拥有任务："+task.getPath());
     }
 

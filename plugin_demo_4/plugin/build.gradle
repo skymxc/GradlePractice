@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.github.skymxc'
-version '1.0.0'
+version '1.0.13'
 
 sourceCompatibility = 1.8
 
@@ -15,13 +15,11 @@ gradlePlugin {
         greetPlugin {
             id = 'com.github.skymxc.greet'
             implementationClass = 'com.github.skymxc.GreetPlugin'
-            version = '1.0.0'
         }
 
         jarWithLogPlugin {
             id = 'com.github.skymxc.jar-log'
             implementationClass = 'com.github.skymxc.JarWithLogPlugin'
-            version = '1.0.0'
         }
     }
 }

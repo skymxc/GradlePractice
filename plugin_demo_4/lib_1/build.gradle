@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.github.skymxc.greet' version '1.0.0'
+    id 'com.github.skymxc.greet' version '1.0.13'
     id 'com.github.skymxc.jar-log' version '1.0.0'
 }
 
@@ -17,11 +17,44 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+/**
+ * 为 hello 任务配置的 DSL
+ */
 hello {
     message '使用 pluginManagement 管理插件'
+    user {
+        name 'mxc'
+        age 18
+    }
+
+    books {
+        huhu {
+            price = 19
+        }
+
+        heihei {
+            price = 20
+        }
+    }
 }
 
+/**
+ * 为 jarWithLog 配置的 DSL
+ */
 jarLog {
     path getBuildDir().path+"/libs"
     name "record.txt"
+}
+
+// 为 printlnFruits 配置的 DSL 接收参数
+fruits {
+    apple {
+        color '红色'
+    }
+
+    grape {
+        color '紫红色'
+    }
+
+
 }
