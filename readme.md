@@ -32,7 +32,7 @@ Gradle 有两种插件，脚本插件和二进制插件。
 
 ## 创建插件
 
-对于使用什么语言，建议使用静态语言，开发工具建议使用 IntelliJ IDEA 。
+建议使用静态语言，开发工具建议使用 IntelliJ IDEA 。
 
 一个插件就是个实现了 Plugin<T> 的类。
 
@@ -162,7 +162,7 @@ class JarLogPlugin implements Plugin<Project> {
 
 上面使用了一个扩展来接收参数, 普通的对象就可以，例如
 
-LogExtension
+LogExtension.groovy
 ```
 class LogExtension {
     String outputPath;
@@ -230,15 +230,321 @@ plugins {
 
 ## 在单独的项目里创建插件
 
-这次使用 Java 语言。
+这次仍然是使用 Groovy 语言。
 
-插件项目其实就是一个 Java 项目
+这里的插件项目其实就是一个 Groovy 项目，当然了你如果使用 Java 语言就是一个 Java 工程。
+
+创建一个工程
+
+更改 build.gradle 脚本，配置项目
+
+1. 应用 maven-publih 插件
+2. 添加 Gradle 和 Groovy 的依赖
+3. 配置上传任务
+
+最后就是这样子
+```groovy
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+group 'com.github.skymxc'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+//使用 groovy 和 gradle 依赖
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+publishing {
+    repositories {
+        maven {
+            name 'local'
+            url 'file://E:/libs/localMaven'
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.skymxc'
+            artifactId = 'plugin'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+
+}
+```
+创建两个插件
+
+插件 Greet，配置一个任务，简单的输出一句话。
+```groovy
+class Greet implements Plugin<Project> {
+    @Override
+    void apply(Project target) {
+        target.extensions.create("hello", Hello)
+        target.task("hello") {
+            doLast {
+                println "message -> ${target.hello.message}"
+            }
+        }
+    }
+}
+```
+
+Hello.groovy
+```groovy
+class Hello {
+    String message
+}
+```
+
+插件 ID 的配置是跟上面一样的
+
+执行 maven-publish 的 publish 任务，将插件发布到指定仓库。
+
+
+此处是图片
+
+关于 maven-publish 插件更多的任务文档可以参见下面的文档。
+
+插件创建完成了，也发布了，下面就是使用这个插件了。
+
+
+这里对插件的使用就简单介绍一下，详细的可以查看之前的这篇介绍：
+
+1. 在根项目的 build.gradle 配置仓库，添加依赖
+
+```groovy
+buildscript {
+    repositories {
+        maven {
+            url 'file://E:/libs/localMaven'
+        }
+    }
+    dependencies {
+        classpath 'com.github.skymxc:plugin:1.0.2'
+    }
+}
+```
+
+2. 应用插件
+
+我分别在两个 Java 项目里使用了插件:
+- 一个是使用 id 的方式
+- 一个是使用类名的方式
+
+lib_2/ build.gradle 使用 类名的方式
+
+```groovy
+
+······
+
+apply plugin:'com.github.skymxc.greet'
+
+hello{
+    message '使用了 com.github.skymxc.greet 插件'
+}
+
+······
+```
+
+lib_1/ build.gradle 使用 id 的方式
+
+```groovy
+plugins {
+    id 'java'
+    id 'com.github.skymxc.jarlog'
+}
+
+······
+
+logConfigure {
+    outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
+}
+
+```
+
+应用插件后的 gradle 视图，可以看到已经添加的任务。
+
+
+## 使用 java-gradle-plugin 开发插件
+
+java-gradle-plugin 可以减少重复代码，它自动的应用 java 插件，添加 gradleApi() 依赖
+
+```Groovy
+plugins {
+    id 'java-gradle-plugin'
+}
+```
+
+使用 gradlePlugin {} 配置块可以配置开发的每一个插件，不用手动创建对应的属性文件了。
+
+```
+gradlePlugin {
+    plugins {
+        greetPlugin {
+            id = 'com.github.skymxc.greet'
+            implementationClass = 'com.github.skymxc.GreetPlugin'
+        }
+
+        jarWithLogPlugin {
+            id = 'com.github.skymxc.jar-log'
+            implementationClass = 'com.github.skymxc.JarWithLogPlugin'
+        }
+    }
+}
+```
+
+插件会在 jar 文件里自动生成对应的 META-INF 目录。
+
+配合 maven-publish 可以为每个插件创建对应的发布任务。
+
+在发布时也会为每个插件发布对应的 “插件标记工件” 。
+
+关于 插件标记工件这里插一下：
+
+每个 maven 工件都是由三部分标识的
+- groupId
+- artifactId
+- version
+
+平常我们添加依赖的这样的：
+
+```
+implementation 'groupId:artifactId:version'
+```
+
+而我们的插件是通过 id 应用的，怎么通过 id 找到对应的工件呢，这就有了“插件标记工件”。
+应用插件时会把 id 映射成这样：plugin.id: plugin.id.gradle.plugin:plugin.version
+
+即：
+- plugin.id
+- plugin.id.gradle.plugin
+- plugin.version
+
+举个上面的例子：com.github.skymxc.greet 插件对应的工件就是：
+
+com.github.skymxc.greet:com.github.skymxc.greet.gradle.plugin:1.0.0
 
 
 
+简略的代码：
+```
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group 'com.github.skymxc'
+version '1.0.0'
 
 
-资料
+gradlePlugin {
+    plugins {
+        greetPlugin {
+            id = 'com.github.skymxc.greet'
+            implementationClass = 'com.github.skymxc.GreetPlugin'
+        }
+
+        jarWithLogPlugin {
+            id = 'com.github.skymxc.jar-log'
+            implementationClass = 'com.github.skymxc.JarWithLogPlugin'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name 'local'
+            url 'file://E:/libs/localMaven'
+        }
+    }
+}
+
+```
+
+### maven-publish 的任务
+
+简单介绍一下 maven-publish 的发布任务
+
+- *generatePomFileFor${PubName}Publication*
+
+    为名字为 PubName 的的发布创建一个 POM 文件，填充已知的元数据，例如项目名称，项目版本和依赖项。POM文件的默认位置是build / publications / $ pubName / pom-default.xml。
+
+- *publish${PubName}PublicationTo${RepoName}Repository*
+
+   将 PubName 发布 发布到名为 RepoName 的仓库。
+   如果仓库定义没有明确的名称，则 RepoName 默认为 “ Maven”。
+
+- *publish${PubName}PublicationToMavenLocal*
+
+   将 PubName 发布以及本地发布的 POM 文件和其他元数据复制到本地Maven缓存中
+   （通常为$USER_HOME / .m2 / repository）。
+
+- *publish*
+
+   依赖于：所有的 publish${PubName}PublicationTo${RepoName}Repository 任务
+   将所有定义的发布发布到所有定义的仓库的聚合任务。不包括复制到本地 Maven 缓存的任务。
+
+- *publishToMavenLocal*
+
+   依赖于：所有的 publish${PubName}PublicationToMavenLocal 任务
+
+  将所有定义的发布（包括它们的元数据（POM文件等））复制到本地Maven缓存。
+
+将所有定义的发布发布到所有定义的存储库的聚合任务。它不包括复制出版物本地Maven缓存。
+
+![插件对应的发布任务]()
+
+执行发布任务 publish 后可以在对应的仓库查看
+
+![]()
+![]()
+
+发布插件后的使用
+
+1. 配置仓库，这次在 settings.gradle 里配置
+```
+pluginManagement {
+    repositories {
+        maven {
+            url 'file://E:/libs/localMaven'
+        }
+    }
+}
+```
+
+2. 使用插件
+```
+plugins {
+    id 'java'
+    id 'com.github.skymxc.greet' version '1.0.13'
+    id 'com.github.skymxc.jar-log' version '1.0.0'
+}
+```
+
+
+## 为插件配置 DSL
+
+### 任务类型
+### 普通对象
+### 嵌套
+### 集合对象
+
+
+这篇文章的源码已经放在 github 上：https://github.com/skymxc/GradlePractice
+
+
+
+## 资料
 
 - 自定义插件 https://docs.gradle.org/current/userguide/custom_plugins.html
 - 开发辅助插件 https://docs.gradle.org/current/userguide/java_gradle_plugin.html

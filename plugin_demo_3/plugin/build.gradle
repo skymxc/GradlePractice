@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.github.skymxc'
-version '1.0.1'
+version '1.0.2'
 
 sourceCompatibility = 1.8
 
@@ -28,7 +28,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.github.skymxc'
             artifactId = 'plugin'
-            version = '1.0.1'
+            version = '1.0.2'
             from components.java
         }
     }
