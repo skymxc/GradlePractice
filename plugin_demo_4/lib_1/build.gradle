@@ -56,5 +56,12 @@ fruits {
         color '紫红色'
     }
 
+    banana {
+        color '黄色'
+    }
+
+    orange {
+        color '屎黄色'
+    }
 
 }

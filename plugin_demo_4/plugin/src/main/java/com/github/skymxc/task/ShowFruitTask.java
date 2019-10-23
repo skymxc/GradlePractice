@@ -14,6 +14,7 @@ public class ShowFruitTask extends DefaultTask {
     public void show(){
 
         NamedDomainObjectContainer<Fruit> fruits = (NamedDomainObjectContainer<Fruit>) getProject().getExtensions().getByName("fruits");
+
         fruits.forEach(fruit -> {
             String format = String.format("name: %s , color: %s", fruit.getName(), fruit.getColor());
             getLogger().quiet("fruit : {}",format);
