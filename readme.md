@@ -840,9 +840,7 @@ public class ShowFruitTask extends DefaultTask {
 }
 ```
 
-
-> )
-
+> 关于自定义插件的相关介绍就这些了，更过的文档可以查看 [用户手册](https://docs.gradle.org/current/userguide/userguide.html)
 
 
 这篇文章的源码已经放在 github 上：https://github.com/skymxc/GradlePractice
