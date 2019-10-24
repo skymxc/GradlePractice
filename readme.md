@@ -4,9 +4,16 @@
 
 插件被用来封装构建逻辑和一些通用配置。将可重复使用的构建逻辑和默认约定封装到插件里，以便于其他项目使用。
 
+
+
+你可以使用你喜欢的语言开发插件，但是最终是要编译成字节码在 JVM 运行的。
+
+
+
 Gradle 有两种插件，脚本插件和二进制插件。
 
-关于插件的介绍，可以参考我的另一篇文章 [ Gradle 插件] ()
+关于插件的介绍，可以参考我的另一篇文章 [Gradle 插件]()
+
 这里讲的自定义插件是二进制插件，二进制插件可以打包发布，利于传播。
 
 
@@ -16,11 +23,11 @@ Gradle 有两种插件，脚本插件和二进制插件。
 - 在 buildSrc 下
 - 在单独的项目里
 
-三个地方的插件的用途目的不同
+三个地方的插件的用途目的不同。
 
 ### 在脚本里的插件
 
-其他项目无法使用，只能在本脚本里使用
+其他项目无法使用，只能在本脚本里使用。
 
 ### 在 buildSrc 下
 
@@ -28,13 +35,17 @@ Gradle 有两种插件，脚本插件和二进制插件。
 
 ### 在单独的项目里
 
-可以将项目打包发布，提供给其他任何项目使用。
+你可以为你的插件创建一个项目，这个项目可以打包发布 JAR，提供给其他任何项目使用。
 
 ## 创建插件
 
 建议使用静态语言，开发工具建议使用 IntelliJ IDEA 。
 
+
+
 一个插件就是个实现了 Plugin<T> 的类。
+
+当插件被应用到项目时，Gradle 会实例化这个插件并调用 Plugin.apply() 方法，并将这个项目的实例当做参数传递进去。插件就可以对这个项目进行各种配置了。
 
 CustomPLugin.java
 ```groovy
@@ -51,6 +62,10 @@ class CustomPLugin implements Plugin<Project>{
 前面说到可以在三个地方创建插件，现在来一一实现下。
 
 ### 在脚本里创建一个插件
+
+
+
+可以在 build.gradle 脚本里任意地方定义。
 
 build.gradle
 ```groovy
@@ -85,7 +100,7 @@ gradle hello
 
 ### 在项目的 buildSrc 目录下创建项目
 
-这次使用的是 Groovy 。
+这里使用的是 Groovy 。
 
 在这个目录下创建项目会被 Gradle 自动识别的。
 
@@ -185,7 +200,11 @@ def file = project.log.outputPath;
 
 插件创建完成后，在项目的里就可以使用了。
 
-现在可以使用类名应用插件了，
+现在可以使用类名应用插件了。
+
+
+
+build.gradle
 
 ```groovy
 import com.github.skymxc.JarLogPlugin
@@ -196,13 +215,20 @@ apply plugin: JarLogPlugin
 插件应用成功后就可以使用 DSL 为插件配置参数
 
 配置记录文件地址
+
+build.gradle
+
 ```
 log {
     outputPath rootProject.projectDir.getPath()+"\\record\\jar.txt"
 }
 ```
 
+
+
 #### 为插件创建 ID
+
+
 
 1. 在 main 目录下创建 resources 文件夹
 2. 在 resources 目录下创建 META-INF 文件夹
@@ -555,6 +581,7 @@ plugins {
 ```
 
 
+
 ## 为插件配置 DSL
 
 和插件的交互就是通过 DSL 配置块进行的。
@@ -611,8 +638,10 @@ jarLog {
 
 ```
 
-接下来就是获取配置的参数了：
+接下来就是在插件或者任务里获取 DSL 配置的参数了：
+
 可以通过名字或者类型获取到这个扩展对象。
+
 ```java
 public class JarWithLogTask extends Jar {
 
@@ -840,7 +869,8 @@ public class ShowFruitTask extends DefaultTask {
 }
 ```
 
-> 关于自定义插件的相关介绍就这些了，更过的文档可以查看 [用户手册](https://docs.gradle.org/current/userguide/userguide.html)
+> 关于自定义插件的相关介绍就这些了，更详细的文档可以查看 [Gradle 用户手册](https://docs.gradle.org/current/userguide/userguide.html)
+
 
 
 这篇文章的源码已经放在 github 上：https://github.com/skymxc/GradlePractice
@@ -856,3 +886,7 @@ public class ShowFruitTask extends DefaultTask {
 - maven 发布插件 https://docs.gradle.org/current/userguide/publishing_maven.html
 - Gradle 教程 https://gradle.org/guides/?q=Plugin%20Development
 - Gradle DSL https://blog.csdn.net/zlcjssds/article/details/79229209
+
+
+
+> End

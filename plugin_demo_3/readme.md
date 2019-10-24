@@ -2,3 +2,5 @@
 
 - plugin 发布的插件
 - lib_1 lib_2 使用了插件
+
+使用的是 maven-publish 发布插件
