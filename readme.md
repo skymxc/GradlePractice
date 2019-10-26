@@ -1,3 +1,11 @@
+
+## 目录导航
+- plugin_demo_1 脚本里插件
+- plugin_demo_2 buildSrc 目录下定义插件
+- plugin_demo_3 单独项目定义插件 使用 Groovy 
+- plugin_demo_4 单独项目定义插件 使用 Java 配合 DSL
+
+
 # 自定义插件
 
 > 使用版本 5.6.2
@@ -12,7 +20,7 @@
 
 Gradle 有两种插件，脚本插件和二进制插件。
 
-关于插件的介绍，可以参考我的另一篇文章 [Gradle 插件]()
+关于插件的介绍，可以参考我的另一篇文章 [Gradle 插件](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xSDhSVUUvc211SmpQckJrSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmWEpxMjJCZzFaOVRFeU1rRmR5MHg3QTM3UnFwQTAxZEZOVEtDUkEwSDFaZWVHLVNXWW5ZdW1ENzFoVGxSZWxPZm53ZHg0aGo1cmQ0RWJsS1dxQVRFck9HSktLTEVpNHRRNkZSLWtaVVhVbE5nfn4%3D&chksm=1046319f2731b889802586819aea2cca3934253c07f22a5b7debd08e352c8abe7ea72fb953d3#rd)
 
 这里讲的自定义插件是二进制插件，二进制插件可以打包发布，利于传播。
 
@@ -89,7 +97,7 @@ apply plugin:CustomPLugin
 
 在 gradle 窗口就可以看到应用插件后的添加的任务
 
-![添加的任务](D:\Demo\Gradle\plugin_demo\screenshot\gradle窗口查看添加的任务.png)
+![添加的任务](screenshot/gradle窗口查看添加的任务.png)
 
 双击任务或者命令行都可以执行 hello 任务
 
@@ -105,7 +113,7 @@ gradle hello
 在这个目录下创建项目会被 Gradle 自动识别的。
 
 结构如下
-![buildSrc 目录结构](D:\Demo\Gradle\plugin_demo\screenshot\buildSrc目录结构.png)
+![buildSrc 目录结构](screenshot/buildSrc目录结构.png)
 
 1. 在项目根目录下创建目录 buildSrc
 2. 在 buildSrc 下按照 java 工程或者 groovy 工程（这取决于你用什么语言）新建目录
@@ -260,7 +268,7 @@ plugins {
 - 不能包含连续的 “ . ” 。
 
 
-关于 Groovy 的语法，可以参考 [Groovy 语法]()。
+关于 Groovy 的语法，可以参考 [Groovy 语法](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xUDhxVzJDWnZmaHY5ejhjSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmVUZtckhHWUhHUHRUZFFabzJsQzBNOHY3bzNXUWhhcXJWdTg2VzBkQ0VkcmdCcjFHUjVOYW50UXJKNFFkMkUxUGszZUFfLWI3ZjFPcllpRGtsNi1xMERvbWxrOHVQS0lhQk9wV2xYZFFha2tnfn4%3D&chksm=104631e72731b8f1f1551d52f19e3aad389093220f3df9fd26bff5a92ade34e03878357a8068#rd)。
 
 
 ## 在单独的项目里创建插件
@@ -271,14 +279,14 @@ plugins {
 
 创建一个工程
 
-![图](D:\Demo\Gradle\plugin_demo\screenshot\创建Groovy工程-1.png)
-![图](D:\Demo\Gradle\plugin_demo\screenshot\创建Groovy工程-2.png)
+![创建 Groovy 工程](screenshot/创建Groovy工程-1.png)
+![创建 Groovy 工程](screenshot/创建Groovy工程-2.png)
 
 
 
 创建出来的项目就是这样子，标准的 Groovy 工程目录
 
-![](D:\Demo\Gradle\plugin_demo\screenshot\创建Groovy工程-3.png)
+![创建 Groovy 工程](screenshot/创建Groovy工程-3.png)
 
 更改 build.gradle 脚本，配置项目
 
@@ -351,22 +359,22 @@ class Hello {
 
 插件 ID 的配置是跟上面一样的。
 
-![目录结构图](D:\Demo\Gradle\plugin_demo\screenshot\创建Groovy工程-4.png)
+![目录结构图](screenshot/创建Groovy工程-4.png)
 
 执行 maven-publish 的 publish 任务，将插件发布到指定仓库。
 
-![gradlew -p plugin publish](D:\Demo\Gradle\plugin_demo\screenshot\发布任务-2.png)
+![gradlew -p plugin publish](screenshot/发布任务-2.png)
 
 发布成功后的仓库
 
-![发布成功的图片](D:\Demo\Gradle\plugin_demo\screenshot\本地maven-0.png)
+![发布成功的图片](screenshot/本地maven-0.png)
 
 关于 maven-publish 插件更多的任务文档可以参见下面的文档。
 
 插件创建完成了，也发布了，下面就是使用这个插件了。
 
 
-这里对插件的使用就简单介绍一下，详细的可以查看之前的这篇介绍：[Gradle 插件]()
+这里对插件的使用就简单介绍一下，详细的可以查看之前的这篇介绍：[Gradle 插件](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xSDhSVUUvc211SmpQckJrSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmWEpxMjJCZzFaOVRFeU1rRmR5MHg3QTM3UnFwQTAxZEZOVEtDUkEwSDFaZWVHLVNXWW5ZdW1ENzFoVGxSZWxPZm53ZHg0aGo1cmQ0RWJsS1dxQVRFck9HSktLTEVpNHRRNkZSLWtaVVhVbE5nfn4%3D&chksm=1046319f2731b889802586819aea2cca3934253c07f22a5b7debd08e352c8abe7ea72fb953d3#rd)
 
 1. 在根项目的 build.gradle 配置仓库，添加依赖
 
@@ -422,7 +430,7 @@ logConfigure {
 
 应用插件后的 gradle 视图，可以看到已经添加的任务。
 
-![ gradle 视图-任务](D:\Demo\Gradle\plugin_demo\screenshot\应用插件后-0.png)
+![ gradle 视图-任务](screenshot/应用插件后-0.png)
 
 ## 使用 java-gradle-plugin 开发插件
 
@@ -551,12 +559,12 @@ publishing {
   将所有定义的发布（包括它们的元数据（POM文件等））复制到本地Maven缓存。
 
 
-![插件对应的发布任务](D:\Demo\Gradle\plugin_demo\screenshot\插件对应的发布任务.png)
+![插件对应的发布任务](screenshot/插件对应的发布任务.png)
 
 执行发布任务 publish 后可以在对应的仓库查看
 
-![发布后的仓库图1](D:\Demo\Gradle\plugin_demo\screenshot\生成的插件标记工件-1.png)
-![发布后的仓库图2](D:\Demo\Gradle\plugin_demo\screenshot\生成的插件标记工件-2.png)
+![发布后的仓库图1](screenshot/生成的插件标记工件-1.png)
+![发布后的仓库图2](screenshot/生成的插件标记工件-2.png)
 
 发布插件后的使用
 
@@ -873,9 +881,6 @@ public class ShowFruitTask extends DefaultTask {
 
 
 
-这篇文章的源码已经放在 github 上：https://github.com/skymxc/GradlePractice
-
-
 
 ## 资料
 
@@ -890,3 +895,14 @@ public class ShowFruitTask extends DefaultTask {
 
 
 > End
+
+<p style="display:block;text-align:center;color:orangered;">
+    
+欢迎关注我的公众号 
+
+![佛系编码](screenshot/二维码.jpg)
+
+</p>
+
+
+
