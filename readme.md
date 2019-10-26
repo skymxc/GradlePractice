@@ -20,7 +20,7 @@
 
 Gradle 有两种插件，脚本插件和二进制插件。
 
-关于插件的介绍，可以参考我的另一篇文章 [Gradle 插件](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xSDhSVUUvc211SmpQckJrSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmWEpxMjJCZzFaOVRFeU1rRmR5MHg3QTM3UnFwQTAxZEZOVEtDUkEwSDFaZWVHLVNXWW5ZdW1ENzFoVGxSZWxPZm53ZHg0aGo1cmQ0RWJsS1dxQVRFck9HSktLTEVpNHRRNkZSLWtaVVhVbE5nfn4%3D&chksm=1046319f2731b889802586819aea2cca3934253c07f22a5b7debd08e352c8abe7ea72fb953d3#rd)
+关于插件的介绍，可以参考我的另一篇文章 [Gradle 插件](https://mp.weixin.qq.com/s/6ZV19RPccfzhHON_TwM5NA)
 
 这里讲的自定义插件是二进制插件，二进制插件可以打包发布，利于传播。
 
@@ -268,7 +268,7 @@ plugins {
 - 不能包含连续的 “ . ” 。
 
 
-关于 Groovy 的语法，可以参考 [Groovy 语法](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xUDhxVzJDWnZmaHY5ejhjSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmVUZtckhHWUhHUHRUZFFabzJsQzBNOHY3bzNXUWhhcXJWdTg2VzBkQ0VkcmdCcjFHUjVOYW50UXJKNFFkMkUxUGszZUFfLWI3ZjFPcllpRGtsNi1xMERvbWxrOHVQS0lhQk9wV2xYZFFha2tnfn4%3D&chksm=104631e72731b8f1f1551d52f19e3aad389093220f3df9fd26bff5a92ade34e03878357a8068#rd)。
+关于 Groovy 的语法，可以参考 [Groovy 语法](https://mp.weixin.qq.com/s/WqqmamLgjQNDirEEvlBvOQ)。
 
 
 ## 在单独的项目里创建插件
@@ -374,7 +374,7 @@ class Hello {
 插件创建完成了，也发布了，下面就是使用这个插件了。
 
 
-这里对插件的使用就简单介绍一下，详细的可以查看之前的这篇介绍：[Gradle 插件](https://mp.weixin.qq.com/s?__biz=MzA5NDkwNjc4Ng==&tempkey=MTAzMl8xSDhSVUUvc211SmpQckJrSmNQZGVZSjJncTdSSmN2eTVUWWFMbThkejVxV1p6ZGxhdW9ya1VleTFmWEpxMjJCZzFaOVRFeU1rRmR5MHg3QTM3UnFwQTAxZEZOVEtDUkEwSDFaZWVHLVNXWW5ZdW1ENzFoVGxSZWxPZm53ZHg0aGo1cmQ0RWJsS1dxQVRFck9HSktLTEVpNHRRNkZSLWtaVVhVbE5nfn4%3D&chksm=1046319f2731b889802586819aea2cca3934253c07f22a5b7debd08e352c8abe7ea72fb953d3#rd)
+这里对插件的使用就简单介绍一下，详细的可以查看之前的这篇介绍：[Gradle 插件](https://mp.weixin.qq.com/s/6ZV19RPccfzhHON_TwM5NA)
 
 1. 在根项目的 build.gradle 配置仓库，添加依赖
 
